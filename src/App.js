@@ -1,24 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import './App.css'
+import React, { useState, useEffect } from 'react';
+
+import axios from "axios"
 
 function App() {
+  const [todos, setTodos] = useState([]);
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/todos')
+      .then(response => response.json())
+      .then(data => setTodos(data))
+      .catch(error => console.error('Error fetching todos:', error));
+  }, []);
+
+
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <div>
+    <h1>Todos</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>User ID</th>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Completed</th>
+        </tr>
+      </thead>
+      <tbody>
+        {todos.map(todo => (
+          <tr key={todo.id}>
+            <td>{todo.userId}</td>
+            <td>{todo.id}</td>
+            <td>{todo.title}</td>
+            <td>{todo.completed ? 'Yes' : 'No'}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
   );
 }
 
